@@ -1,0 +1,29 @@
+# Validate that the auth method being created is not userpass
+
+import "strings"
+
+# Print some information about the request
+# Note that these messages will only be printed when the policy is violated
+print("Namespace path:", namespace.path)
+print("Request path:", request.path)
+print("Auth type:", request.data.type)
+print("Request data:", request.data)
+print("Request operation:", request.operation)
+
+validate_auth_type = func() {
+  validated = true
+  if (request.data.type is "userpass") {
+    print("You cannot enable userpass auth methods. Use the provided ldap auth instead.")
+    validated = false
+  }
+  return validated
+}
+
+# Main rule
+main = rule when (request.path matches "sys/auth/[^/]*" or
+                  request.path matches "sys/auth/[^/]*/tune" or
+                  request.path matches "sys/mounts/auth/[^/]*/tune") and
+                  request.operation in ["create", "update"] {
+  validate_auth_type()
+}
+
