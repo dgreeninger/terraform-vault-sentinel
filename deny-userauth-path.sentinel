@@ -13,7 +13,7 @@ print("Request operation:", request.operation)
 validate_auth_type = func() {
   validated = true
   if (request.data.type is "userpass") {
-    print("You cannot enable userpass auth methods. Use the provided ldap auth instead.")
+    print("You cannot enable userpass auth methods.")
     validated = false
   }
   return validated
