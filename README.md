@@ -17,6 +17,8 @@ terraform apply -auto-approve
 
 Third terminal window to authenticate as an admin user.
 ```
+export VAULT_ADDR="http://127.0.0.1:8200"
+export VAULT_NAMESPACE="team-namespace"
 vault login -method=userpass username=admin password=passworld123
 vault auth enable -path=test_pass userpass #should return an error
 vault auth enable ldap
